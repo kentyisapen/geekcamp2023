@@ -28,11 +28,10 @@
     <div class="container mt-4">
         <form action="{{ url('/') }}" method="post">
             @csrf
-            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
             <div class="row">
                 <div class="col-md-6 col offset-md-3">
                     <label for="pre-text" class="form-label">元の言葉</label>
-                    <textarea name="pre-text" id="pre-text" class="form-control" rows="5">{{ old('pre-text') }}</textarea>
+                    <textarea name="pre-text" id="pre-text" class="form-control" rows="5">{{ $preText }}</textarea>
                 </div>
             </div>
             <div class="row mt-4">

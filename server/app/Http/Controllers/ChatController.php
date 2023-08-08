@@ -15,10 +15,10 @@ class ChatController
         $preText = $request->input('pre-text');
         $dialect = $request->input('dialect');
         if ($preText === null || $preText === "") {
-            return view("chat", ["value" =>"テキストを入力してください。"]);
+            return view("chat", ["value" =>"テキストを入力してください。", "pre-text" => $preText]);
         }
         if ($dialect === null) {
-            return view("chat", ["value" =>"値が不正です。"]);
+            return view("chat", ["value" =>"値が不正です。", "pre-text" => $preText]);
         }
 
         $url = "https://api.openai.com/v1/chat/completions";
@@ -34,7 +34,7 @@ class ChatController
             "messages" => [
                 [
                     "role" => "system",
-                    "content" =>"以下の文を関西弁に翻訳してください。\n以下の文を関西弁に翻訳してください。\n以下の文を関西弁に翻訳してください。\n",
+                    "content" =>"以下の文を必ず関西弁に翻訳してください。",
                 ],
                 [
                     "role" => "user",
@@ -48,6 +48,6 @@ class ChatController
             info('エラーが発生');
         }
 
-        return view("chat", ["value" =>$response->json('choices')[0]['message']['content']]);
+        return view("chat", ["value" =>$response->json('choices')[0]['message']['content'], "preText" => $preText]);
     }
 }
