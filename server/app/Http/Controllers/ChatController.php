@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 class ChatController
 {
     function index(){
-        return view("chat", ["value" => ""]);
+        return view("chat", ["value" => "", "preText" => ""]);
     }
 
     function post(Request $request){
