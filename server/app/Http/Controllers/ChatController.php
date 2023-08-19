@@ -14,6 +14,7 @@ class ChatController
     function post(Request $request){
         $preText = $request->input('pre-text');
         $dialect = $request->input('dialect');
+
         if ($preText === null || $preText === "") {
             return view("chat", ["value" =>"テキストを入力してください。", "pre-text" => $preText]);
         }
@@ -21,6 +22,18 @@ class ChatController
             return view("chat", ["value" =>"値が不正です。", "pre-text" => $preText]);
         }
 
+        // 入力の処理
+
+        $afterText = $this->accessApi($preText);
+
+        // 具体的な処理
+
+        return view("chat", ["value" => $afterText, "preText" => $preText]);
+
+        // 出力
+    }
+
+    private function accessApi($preText){
         $url = "https://api.openai.com/v1/chat/completions";
 
         $apiKey = env("OPEN_API_KEY");
@@ -48,6 +61,8 @@ class ChatController
             info('エラーが発生');
         }
 
-        return view("chat", ["value" =>$response->json('choices')[0]['message']['content'], "preText" => $preText]);
+        $afterText = $response->json('choices')[0]['message']['content'];
+
+        return $afterText;
     }
 }

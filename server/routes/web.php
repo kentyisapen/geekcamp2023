@@ -15,4 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [ChatController::class, "index"]);
-Route::post('/', [ChatController::class, "post"]);
+Route::middleware(['firewall'])->group(function(){
+    Route::post('/', [ChatController::class, "post"]);
+});
