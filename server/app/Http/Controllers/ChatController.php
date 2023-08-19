@@ -33,7 +33,15 @@ class ChatController
             return view("chat", ["value" =>"値が不正です。", "preText" => $preText]);
         }
 
-        return $preText;
+        // 入力の処理
+
+        $afterText = $this->accessApi($preText);
+
+        // 具体的な処理
+
+        return view("chat", ["value" => $afterText, "preText" => $preText]);
+
+        // 出力
     }
 
     private function accessApi($preText){
