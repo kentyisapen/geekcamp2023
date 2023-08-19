@@ -12,14 +12,25 @@ class ChatController
     }
 
     function post(Request $request){
+        $preText = $this->validatePostInput($request);
+        // 入力の処理
+
+        $afterText = $this->accessApi($preText);
+        // 具体的な処理
+
+        return view("chat", ["value" => $afterText, "preText" => $preText]);
+        // 出力
+    }
+
+    private function validatePostInput($request){
         $preText = $request->input('pre-text');
         $dialect = $request->input('dialect');
 
         if ($preText === null || $preText === "") {
-            return view("chat", ["value" =>"テキストを入力してください。", "pre-text" => $preText]);
+            return view("chat", ["value" =>"テキストを入力してください。", "preText" => $preText]);
         }
         if ($dialect === null) {
-            return view("chat", ["value" =>"値が不正です。", "pre-text" => $preText]);
+            return view("chat", ["value" =>"値が不正です。", "preText" => $preText]);
         }
 
         // 入力の処理
