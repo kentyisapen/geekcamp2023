@@ -30,6 +30,10 @@
             @csrf
             <div class="row">
                 <div class="col-md-6 col offset-md-3">
+                    <div class="text-end">
+                        <input type="file" id="file_input" accept=".txt" class="form-control">
+                        <input type="button" value="選択" onclick="load_file(file_input)" class="btn btn-primary mt-4">
+                    </div>
                     <label for="pre-text" class="form-label">元の言葉</label>
                     <textarea name="pre-text" id="pre-text" class="form-control" rows="5">{{ $preText }}</textarea>
                 </div>
@@ -55,10 +59,45 @@
             <div class="col-md-6 col offset-md-3">
                 <label for="after-text" class="form-label">翻訳後の言語</label>
                 <textarea id="after-text" class="form-control" rows="5">{{ $value }}</textarea>
+                <div class="text-end">
+                    <input type="button" value="コピー" onclick="copy()" class="btn btn-primary mt-4">
+                </div>
+                <div class="text-end">
+                    <a href="#" id="download" download="test.txt" class="btn btn-outline-primary mt-4">ダウンロード</a>
+                </div>
             </div>
         </div>
     </div>
+    <script>
+        function load_file(input_file) {
+            const file = input_file.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById("pre-text").value = e.target.result;
+                };
+                reader.readAsText(file);
+            }
+        }
 
+        function copy(){
+            navigator.clipboard.writeText(document.getElementById("after-text").value);
+        }
+
+        document.getElementById('download').addEventListener('click', (event) => {
+            const result = confirm("ダウンロードします")
+                if (!result) {
+                    return
+                }
+            let select = document.getElementById("dialect");
+            const text1 = "元の言葉:"+document.getElementById("pre-text").value +" → "+select.options[select.selectedIndex].textContent+":"+ document.getElementById("after-text").value;
+            const blob1 = new Blob([text1], { type: 'text/plain' });
+
+            event.target.setAttribute("download","test" + ".txt");
+
+            event.currentTarget.href = window.URL.createObjectURL(blob1);
+        });
+    </script>
 </body>
 
 </html>
