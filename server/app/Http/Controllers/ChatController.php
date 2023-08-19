@@ -12,7 +12,9 @@ class ChatController
     }
 
     function post(Request $request){
-        $preText = $this->validatePostInput($request);
+        $validatedInput= $this->validatePostInput($request);
+        $preText = $validatedInput["preText"];
+        $dialect = $validatedInput["dialect"];
         // 入力の処理
 
         $afterText = $this->accessApi($preText);
@@ -33,15 +35,10 @@ class ChatController
             return view("chat", ["value" =>"値が不正です。", "preText" => $preText]);
         }
 
-        // 入力の処理
-
-        $afterText = $this->accessApi($preText);
-
-        // 具体的な処理
-
-        return view("chat", ["value" => $afterText, "preText" => $preText]);
-
-        // 出力
+        return [
+            "preText" => $preText,
+            "dialect" => $dialect
+        ];
     }
 
     private function accessApi($preText){
