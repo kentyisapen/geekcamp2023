@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\URL;
 */
 
 if (config('app.env') === 'production' or config('app.env') === 'staging') {
-    // asset()やurl()がhttpsで生成される
     URL::forceScheme('https');
 }
 
