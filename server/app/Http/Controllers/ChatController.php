@@ -70,7 +70,22 @@ class ChatController
                 [
                     "role" => "user",
                     "content" =>$preText
-                ]
+                ],
+            ],
+            "functions" => [
+                    [
+                    "name" => "convertDialects",
+                    "description" => "標準語を特定の方言への変換を行う。例：(関西弁の場合)本当にありがとう->ほんまおおきに",
+                    "parameters" => [
+                        "type" => "object",
+                        "properties" =>[
+                            "converted_text" => [
+                                "type" => "string",
+                                "description" => "特定の方言で変換した後の文章。"
+                            ]
+                        ]
+                    ]
+                            ],
             ]
         );
 
@@ -79,7 +94,9 @@ class ChatController
             info('エラーが発生');
         }
 
-        $afterText = $response->json('choices')[0]['message']['content'];
+        Log::debug($response);
+
+        $afterText = json_decode($response->json('choices')[0]['message']['function_call']['arguments'], true, 512, JSON_THROW_ON_ERROR)["converted_text"];
 
         return $afterText;
     }
