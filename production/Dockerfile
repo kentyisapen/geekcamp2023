@@ -20,12 +20,3 @@ ENV PATH $PATH:/composer/vendor/bin
 WORKDIR /var/www
 
 RUN composer global require "laravel/installer"
-
-RUN echo "Caching config..."
-RUN php artisan config:cache
-
-RUN echo "Caching routes..."
-RUN php artisan route:cache
-
-RUN echo "Running migrations..."
-RUN php artisan migrate --force
