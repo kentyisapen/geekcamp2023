@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChatController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+if (config('app.env') === 'production' or config('app.env') === 'staging') {
+    // asset()やurl()がhttpsで生成される
+    URL::forceScheme('https');
+}
 
 Route::get('/', [ChatController::class, "index"]);
 Route::middleware(['firewall'])->group(function(){
