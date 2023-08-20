@@ -29,13 +29,13 @@
         <form action="{{ url('/') }}" method="post">
             @csrf
             <div class="row">
-                <div class="col-md-6 col offset-md-3">
+                <div class="col-lg-6 col offset-lg-3">
                     <label for="pre-text" class="form-label">元の言葉</label>
                     <textarea name="pre-text" id="pre-text" class="form-control" rows="5">{{ $preText }}</textarea>
                 </div>
             </div>
             <div class="row mt-4">
-                <div class="col-md-6 col offset-md-3">
+                <div class="col-lg-6 col offset-lg-3">
                     <label for="pre-text" class="form-label">もしくは元の言葉をファイルから読み込む</label>
                     <div class="d-flex gap-4">
                         <input type="file" id="file_input" accept=".txt" class="form-control">
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="row mt-4">
-                <div class="col-md-6 col offset-md-3">
+                <div class="col-lg-6 col offset-lg-3">
                     <label for="dialect" class="form-label">方言を選択</label>
                     <select name="dialect" id="dialect" class="form-select">
                         <option value="0" {{ $dialect === 0 ? 'selected' : '' }}>関西弁</option>
@@ -54,7 +54,7 @@
                 </div>
             </div>
             <div class="row mt-4">
-                <div class="col-md-6 col offset-md-3 text-end">
+                <div class="col-lg-6 col offset-lg-3 text-end">
                     <button type="submit" id="submit" class="btn btn-primary ">
                         翻訳
                     </button>
@@ -62,13 +62,13 @@
             </div>
         </form>
         <div class="row mt-4">
-            <div class="col-md-6 col offset-md-3">
+            <div class="col-lg-6 col offset-lg-3">
                 <label for="after-text" class="form-label">翻訳後の言語</label>
                 <textarea id="after-text" class="form-control" rows="5">{{ $value }}</textarea>
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col-md-6 col offset-md-3 ">
+            <div class="col-lg-6 col offset-lg-3 ">
                 <div class="d-flex gap-3 justify-content-end">
                     <input type="button" value="コピー" onclick="copy()" class="btn btn-primary">
                     <a href="#" id="download" download="test.txt" class="btn btn-outline-primary">ダウンロード</a>
