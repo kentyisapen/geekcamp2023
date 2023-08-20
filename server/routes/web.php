@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\URL;
 |
 */
 
-if (config('app.env') === 'production' or config('app.env') === 'staging') {
-    URL::forceScheme('https');
-}
+
 
 Route::get('/', [ChatController::class, "index"]);
 Route::middleware(['firewall'])->group(function(){
