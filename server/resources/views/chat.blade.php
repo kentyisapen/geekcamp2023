@@ -97,6 +97,7 @@
         document.getElementById('download').addEventListener('click', (event) => {
             const result = confirm("ダウンロードします")
             if (!result) {
+                event.preventDefault();
                 return
             }
             let select = document.getElementById("dialect");
