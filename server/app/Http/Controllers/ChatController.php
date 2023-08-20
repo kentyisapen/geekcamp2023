@@ -8,19 +8,29 @@ use Illuminate\Support\Facades\Http;
 class ChatController
 {
     function index(){
-        return view("chat", ["value" => "", "preText" => ""]);
+        return view("chat", ["value" => "", "preText" => "", "dialect" => 0]);
     }
 
     function post(Request $request){
         $validatedInput= $this->validatePostInput($request);
         $preText = $validatedInput["preText"];
-        $dialect = $validatedInput["dialect"];
+        $dialect = (int)$validatedInput["dialect"];
         // 入力の処理
 
-        $afterText = $this->accessApi($preText);
+        Log::debug($dialect);
+
+        if($dialect === 0){
+            $dialectText = "関西弁";
+        } else if ($dialect === 1) {
+            $dialectText = "京都弁";
+        }else if ($dialect === 2) {
+            $dialectText = "東北弁";
+        }
+
+        $afterText = $this->accessApi($preText, $dialectText);
         // 具体的な処理
 
-        return view("chat", ["value" => $afterText, "preText" => $preText]);
+        return view("chat", ["value" => $afterText, "preText" => $preText, "dialect" => $dialect]);
         // 出力
     }
 
@@ -29,10 +39,10 @@ class ChatController
         $dialect = $request->input('dialect');
 
         if ($preText === null || $preText === "") {
-            return view("chat", ["value" =>"テキストを入力してください。", "preText" => $preText]);
+            return view("chat", ["value" =>"テキストを入力してください。", "preText" => $preText, "dialect" => $dialect]);
         }
         if ($dialect === null) {
-            return view("chat", ["value" =>"値が不正です。", "preText" => $preText]);
+            return view("chat", ["value" =>"値が不正です。", "preText" => $preText, "dialect" => $dialect]);
         }
 
         return [
@@ -41,7 +51,7 @@ class ChatController
         ];
     }
 
-    private function accessApi($preText){
+    private function accessApi($preText, $dialectText){
         $url = "https://api.openai.com/v1/chat/completions";
 
         $apiKey = env("OPEN_API_KEY");
@@ -55,7 +65,7 @@ class ChatController
             "messages" => [
                 [
                     "role" => "system",
-                    "content" =>"以下の文を必ず関西弁に翻訳してください。",
+                    "content" =>"以下の文を必ず" .$dialectText ."に翻訳してください。",
                 ],
                 [
                     "role" => "user",
