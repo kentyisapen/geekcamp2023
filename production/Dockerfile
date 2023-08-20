@@ -1,7 +1,6 @@
 FROM richarvey/nginx-php-fpm:1.7.2
 
 COPY . ./server
-COPY ./.env  /etc/secrets/.env
 
 # Image config
 ENV SKIP_COMPOSER 1
