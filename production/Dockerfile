@@ -1,5 +1,4 @@
 FROM php:8.2-fpm
-COPY /etc/secrets/.env .env
 
 RUN apt-get update \
   && apt-get install -y zlib1g-dev mariadb-client vim libzip-dev \
